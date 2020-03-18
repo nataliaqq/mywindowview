@@ -1,0 +1,29 @@
+{
+  "name": "mywindowview",
+  "version": "1.0.0",
+  "description": "my window view project nuxt",
+  "author": "natalia",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "test": "jest"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "imagesloaded": "^4.1.4",
+    "masonry-layout": "^4.2.2",
+    "moment": "^2.24.0",
+    "nuxt": "^2.0.0",
+    "vue-masonry": "^0.11.8"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.0.0",
+    "@vue/test-utils": "^1.0.0-beta.27",
+    "babel-jest": "^24.1.0",
+    "jest": "^24.1.0",
+    "vue-jest": "^4.0.0-0"
+  }
+}
