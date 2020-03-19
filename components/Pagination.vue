@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
     data () {
         return {
@@ -17,10 +19,6 @@ export default {
         startPage: {
             type: Number,
             default: 1
-        },
-        totalPosts: {
-            type: Number,
-            default: 0
         },
         cardsForPage: {
             type: Number,
@@ -33,10 +31,7 @@ export default {
         totalPages () {
             return parseInt((this.totalPosts + this.cardsForPage - 1) / this.cardsForPage)
         },
-
-        totalPosts () {
-            return this.$store.state.posts.total
-        }
+        ...mapGetters('posts', ['totalPosts'])
     },
 
     methods: {

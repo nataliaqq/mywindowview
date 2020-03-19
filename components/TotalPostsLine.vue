@@ -5,6 +5,9 @@
 </template>
 
 <script>
+
+import { mapGetters } from 'vuex'
+
 export default {
     data () {
         return {
@@ -13,9 +16,7 @@ export default {
     },
 
     computed: {
-        totalPosts () {
-            return this.$store.state.posts.total
-        }
+        ...mapGetters('posts', ['totalPosts'])
     }
 }
 </script>

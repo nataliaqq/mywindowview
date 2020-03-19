@@ -16,3 +16,8 @@ export const mutations = {
         state.total = total
     }
 }
+
+export const getters = {
+    totalPosts: state => state.total,
+    list: state => state.list
+}

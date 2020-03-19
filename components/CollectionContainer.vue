@@ -5,14 +5,14 @@
     >
         <v-col
             cols="4"
-            v-for="(item, index) in posts"
+            v-for="(post, index) in list"
             :key="index"
         >
             <Card
-                :img="item.post_thumbnail.URL"
-                :title="item.title"
-                :date="item.date"
-                :id="item.ID"
+                :img="post.post_thumbnail.URL"
+                :title="post.title"
+                :date="post.date"
+                :id="post.ID"
             />
         </v-col>
     </v-row>
@@ -20,6 +20,7 @@
 
 <script>
 import Card from './Card'
+import { mapGetters } from 'vuex'
 
 export default {
     data () {
@@ -34,9 +35,7 @@ export default {
     },
 
     computed: {
-        posts () {
-            return this.$store.state.posts.list
-        }
+        ...mapGetters('posts', ['list'])
     },
 }
 </script>

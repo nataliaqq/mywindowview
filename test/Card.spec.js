@@ -1,6 +1,8 @@
-import { mount } from '@vue/test-utils'
+import { mount, createLocalVue } from '@vue/test-utils'
 import Card from '@/components/Card.vue'
 import Vuetify from 'vuetify'
+
+const localVue = createLocalVue()
 
 describe('Card', () => {
   let vuetify
@@ -10,7 +12,8 @@ describe('Card', () => {
   test('is a Vue instance', () => {
     const wrapper = mount(Card, {
         stubs: ["NuxtLink"],
-        vuetify
+        vuetify,
+        localVue
     })
     expect(wrapper.isVueInstance()).toBeTruthy()
   })
