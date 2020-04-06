@@ -49,18 +49,6 @@ export default {
   ],
 
   auth: {
-    strategies: {
-      keycloak: {
-        _scheme: 'oauth2',
-        authorization_endpoint: 'https://localhost:8080/auth',
-        userinfo_endpoint: false,
-        access_type: 'offline',
-        access_token_endpoint: 'https://localhost:8080/token',
-        response_type: 'code',
-        token_type: 'Bearer',
-        token_key: 'access_token',
-      },
-    },
     redirect: {
       login: '/login',
       callback: '/callback',
