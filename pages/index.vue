@@ -1,6 +1,7 @@
 <template>
     <v-row>
         <v-col cols="12">
+
             <TotalPostsLine />
 
             <CollectionContainer />
@@ -19,14 +20,20 @@ import Pagination from '../components/Pagination'
 import TotalPostsLine from '../components/TotalPostsLine'
 import CollectionContainer from '../components/CollectionContainer'
 
-import { Api } from '../api/api'
 import { mapMutations } from 'vuex'
+
+import posts from '../apollo/queryPosts.gql'
 
 export default {
     data () {
         return {
             cardsForPage: 12,
-            startPage: 1
+            startPage: 1,
+
+            currentPage: null,
+
+            posts: null,
+            queryPostsSkip: true
         }
     },
 
@@ -36,28 +43,46 @@ export default {
         CollectionContainer
     },
 
+    apollo: {
+        posts: {
+            query: posts,
+            variables() {
+                return {
+                    page: this.currentPage,
+                    number: this.cardsForPage
+                }
+            },
+            prefetch: false,
+            skip () {
+                return this.queryPostsSkip
+            }
+        }
+    },
+
+    watch: {
+        'posts' () {
+            if (this.posts) this.onPostsLoaded()
+        }
+    },
+
     methods: {
         onChangePage (page) {
-            this.loadPosts({ page: page })
-        },
-
-        loadPosts (params) {
-            var page = params && params.page
-            if (!page) page = this.startPage
+            this.queryPostsSkip = false
+            this.currentPage = page
 
             this.clearPosts()
+        },
+
+        onPostsLoaded () {
+            this.fillPosts({ page: this.currentPage })
+        },
+
+        fillPosts (params) {
+            var page = params && params.page
+            if (!page) page = this.startPage
             
-            return this.api.getAllPosts({
-                number: this.cardsForPage,
-                page: page
-            })
-            
-            .then(response => {
-                response.data.posts.forEach(
-                    post => this.addPost(post)
-                )
-                this.setTotal(response.data.found)
-            })
+            this.posts.posts.forEach(post => this.addPost(post))
+            this.setTotal(this.posts.total)
         },
 
         ...mapMutations({
@@ -68,8 +93,7 @@ export default {
     },
     
     mounted () {
-        this.api = new Api()
-        this.loadPosts()
+        this.onChangePage(this.startPage)
     }
     
 }

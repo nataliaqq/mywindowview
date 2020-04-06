@@ -2,24 +2,46 @@
    <div>
        <v-container>
            <h1>{{ title }}</h1>
-           <img :src="post.featured_image" v-if="post">
+           <img
+                :src="post.image"
+                v-if="post"
+            >
        </v-container>
    </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
-import { Api } from '@/api/api'
 import datesMixin from '@/mixins/datesMixin' 
+
+import post from '@/apollo/queryPost.gql'
 
 export default {
     data () {
         return {
-           post: null
+            post: null,
+
+            id: null,
+            queryPostSkip: true
         }
     },
 
     mixins: [datesMixin],
+
+    apollo: {
+        post: {
+            query: post,
+            variables() {
+                return {
+                    id: this.id
+                }
+            },
+            prefetch: false,
+            skip () {
+                return this.queryPostSkip
+            }
+        }
+    },
 
     computed: {
         title () {
@@ -27,23 +49,16 @@ export default {
         }
     },
 
-    methods: {
-        loadPost (params) {
-            return this.api.getPost(params)
-
-            .then(response => {
-                this.post = response.data
-            })
-        }
-    },
-
     mounted () {
         if (!this.$route.params.id) this.$router.push({ path: '/' })
-
-        this.api = new Api()
-
-        var id = this.$route.params.id
-        this.loadPost({ id: id })
+        this.id = +this.$route.params.id   
+        this.queryPostSkip = false
     }
 }
 </script>
+
+<style scoped>
+    img {
+        max-width: 700px;
+    }
+</style>

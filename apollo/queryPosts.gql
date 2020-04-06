@@ -1,0 +1,11 @@
+query Posts ($page: Int, $number: Int, $search: String) {
+  posts(page: $page, number: $number, search: $search) {
+    posts {
+      title
+      image
+      date
+      id
+    }
+    total
+  }
+}

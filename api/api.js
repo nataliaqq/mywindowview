@@ -1,8 +1,10 @@
+// DEPRECATED. USE APOLLO GRAPHQL
+
 import axios from 'axios'
 
 export class Api {
     constructor() {
-      this.url = 'https://public-api.wordpress.com/rest/v1.1/sites/mywindowview530920213.wordpress.com'
+      this.url = process.env.API_URL
     }
   
     getAllPosts (params) {
@@ -22,5 +24,9 @@ export class Api {
         var search = params && params.search || ''
 
         return axios.get(this.url + '/posts/?search=' + search) 
+    }
+
+    pingServer () {
+        return axios.get(this.url + '/')
     }
   }

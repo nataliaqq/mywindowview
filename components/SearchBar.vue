@@ -9,7 +9,7 @@
         >
         </v-text-field>
 
-        <v-card v-if="found.length > 0">
+        <v-card v-if="found.length">
             <v-list-item
                 link
                 v-for="(item, index) in found" :key="index"
@@ -24,19 +24,44 @@
 </template>
 
 <script>
-import { Api } from "../api/api"
 import datesMixin from '../mixins/datesMixin'
+
+import posts from '../apollo/queryPosts.gql'
 
 export default {
     data () {
         return {
             searchValue: '',
-            found: [],
-            typingTimer: null
+            posts: null,
+            typingTimer: null,
+
+            queryPostsSkip: true
         }
     },
 
     mixins: [datesMixin],
+
+    apollo: {
+        posts: {
+            query: posts,
+            variables() {
+                return {
+                    search: this.searchValue
+                }
+            },
+            prefetch: false,
+            skip () {
+                return this.queryPostsSkip
+            }
+        }
+    },
+
+    computed: {
+        found () {
+            if (!this.posts) return []
+            return this.posts.posts
+        }
+    },
 
     watch: {
         '$route' () {
@@ -56,26 +81,19 @@ export default {
         },
 
         doneTyping () {
-            this.findPosts({ search: this.searchValue })
+            this.searchForPosts({ search: this.searchValue })
         },
 
         onItemClick (post) {
             this.clearInput()
             this.$router.push({
-                path: '/views/' + post.ID
+                path: '/views/' + post.id
             })
         },
 
-        findPosts (search) {
+        searchForPosts (search) {
             this.clearFound()
-
-            return this.api.search(search)
-
-            .then(response => {
-                response.data.posts.forEach((post, index) => {
-                    this.found.push(post)
-                })
-            })
+            this.queryPostsSkip = false
         },
 
         clearInput () {
@@ -83,7 +101,7 @@ export default {
         },
 
         clearFound () {
-            this.found = []
+            this.posts = null
         },
 
         clearAll () {
@@ -93,7 +111,7 @@ export default {
     },
 
     mounted () {
-        this.api = new Api()
+        
     }
 }
 </script>

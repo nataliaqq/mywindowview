@@ -9,10 +9,10 @@
             :key="index"
         >
             <Card
-                :img="post.post_thumbnail.URL"
+                :img="post.image"
                 :title="post.title"
                 :date="post.date"
-                :id="post.ID"
+                :id="post.id"
             />
         </v-col>
     </v-row>

@@ -30,7 +30,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/masonry'
+    '@/plugins/masonry',
+    '@/plugins/websocket'
   ],
   /*
   ** Nuxt.js dev-modules
@@ -42,7 +43,30 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth',
+    '@nuxtjs/apollo'
   ],
+
+  auth: {
+    strategies: {
+      keycloak: {
+        _scheme: 'oauth2',
+        authorization_endpoint: 'https://localhost:8080/auth',
+        userinfo_endpoint: false,
+        access_type: 'offline',
+        access_token_endpoint: 'https://localhost:8080/token',
+        response_type: 'code',
+        token_type: 'Bearer',
+        token_key: 'access_token',
+      },
+    },
+    redirect: {
+      login: '/login',
+      callback: '/callback',
+      home: '/'
+    },
+  },
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
@@ -62,6 +86,12 @@ export default {
           success: colors.green.accent3
         }
       }
+    }
+  },
+  apollo: {
+    errorHandler: '@/apollo/client-configs/error-handler.js',
+    clientConfigs: {
+      default: '@/apollo/client-configs/default.js'
     }
   },
   /*
