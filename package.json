@@ -16,6 +16,7 @@
     "@nuxtjs/auth": "^4.9.0",
     "@nuxtjs/axios": "^5.9.7",
     "axios": "^0.19.2",
+    "dotenv": "^8.2.0",
     "graphql-tag": "^2.10.3",
     "imagesloaded": "^4.1.4",
     "keycloak-js": "^9.0.2",
