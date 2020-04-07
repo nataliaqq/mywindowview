@@ -29,4 +29,26 @@ export class Api {
     pingServer () {
         return axios.get(this.url + '/')
     }
+
+    getUser (params) {
+        if (!params || !params.token) return Promise.reject(new Error('invalid token'))
+        return axios.get('https://api.github.com/user', {
+            headers: { Authorization: "token " + params.token }
+        })
+    }
+
+    getGithubToken (params) {
+        if (!params) return Promise.reject(new Error('invalid params'))
+
+        return axios.post('https://github.com/login/oauth/access_token', {
+            client_id: params.githubClientId,
+            client_secret: params.githubClientSecret,
+            code: params.sessionCode,
+            accept: 'json'
+        })
+    }
+
+    login () {
+        return axios.get('https://jsonbin.org/_/login')
+    }
   }

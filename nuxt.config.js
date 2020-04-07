@@ -95,6 +95,9 @@ export default {
     }
   },
   env: {
-    api: process.env.API_URL
+    api: process.env.API_URL,
+    githubClientId: process.env.GITHUB_CLIENT_ID,
+    githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
+    adminId: process.env.ADMIN_ID
   }
 }
