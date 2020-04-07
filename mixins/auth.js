@@ -5,8 +5,7 @@ export default {
     data () {
         return {
             githubClientId: process.env.githubClientId,
-            githubClientSecret: process.env.githubClientSecret,
-
+            githubClientSecret: process.env.githubClientSecret
         }
     },
 
@@ -72,12 +71,6 @@ export default {
                 error: parsedParams.error,
                 token: parsedParams.access_token
             }
-        },
-
-        login () {
-            return
-            let api = new Api()
-            api.login()
         },
 
         ...mapMutations ({
