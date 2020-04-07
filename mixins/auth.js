@@ -52,6 +52,28 @@ export default {
             return response
         },
 
+        parseParams (querystring) {
+            // remove any preceding url and split
+            querystring = querystring.substring(querystring.indexOf('?')+1).split('&');
+            var params = {}, pair, d = decodeURIComponent;
+            // march and parse
+            for (var i = querystring.length - 1; i >= 0; i--) {
+                pair = querystring[i].split('=');
+                params[d(pair[0])] = d(pair[1] || '');
+            }
+            
+            return params;
+        },
+
+        async getToken (params) {
+            let response = await this.authorizeUser(params)
+            let parsedParams = this.parseParams(response.data.data)
+            return {
+                error: parsedParams.error,
+                token: parsedParams.access_token
+            }
+        },
+
         login () {
             return
             let api = new Api()

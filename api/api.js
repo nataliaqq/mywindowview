@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export class Api {
     constructor() {
-      this.url = process.env.API_URL
+        this.url = process.env.api
     }
   
     getAllPosts (params) {
@@ -39,12 +39,11 @@ export class Api {
 
     getGithubToken (params) {
         if (!params) return Promise.reject(new Error('invalid params'))
-
-        return axios.post('https://github.com/login/oauth/access_token', {
-            client_id: params.githubClientId,
-            client_secret: params.githubClientSecret,
-            code: params.sessionCode,
-            accept: 'json'
+ 
+        return axios.post(this.url + '/auth', {
+            githubClientId: params.githubClientId,
+            githubClientSecret: params.githubClientSecret,
+            sessionCode: params.sessionCode
         })
     }
 

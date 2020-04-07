@@ -1,14 +1,6 @@
 <template>
     <div>
-        <v-btn>
-            <div>
-                login
-            </div>
-        </v-btn>
-
-        <v-btn>
-            <div>logout</div>
-        </v-btn>
+        <div v-if="error">error: {{ error }}</div>
     </div>
 </template>
 
@@ -22,7 +14,7 @@ export default {
     data () {
         return {
             isLogged: false,
-            code: null
+            error: null
         }
     },
 
@@ -38,10 +30,20 @@ export default {
         })
     },
 
-    mounted () {
-        this.code = this.getParamFromUrl('code', window.location.href)
-        this.authorizeUser({ sessionCode: this.code })
-    //    this.getUser({ token: this.token })
+    async mounted () {
+        let code = this.getParamFromUrl('code', window.location.href)
+        let response = await this.getToken({ sessionCode: code })
+        let error = response.error
+        let token = response.token
+
+        this.error = error ? error : null
+        
+        if (token) {
+            this.getUser({ token: token })
+            this.$router.push({
+                path: '/ws'
+            })
+        }
     }
 }
 </script>
