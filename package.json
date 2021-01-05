@@ -15,7 +15,7 @@
     "@nuxtjs/apollo": "^4.0.0-rc19",
     "@nuxtjs/auth": "^4.9.0",
     "@nuxtjs/axios": "^5.9.7",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "graphql-tag": "^2.10.3",
     "imagesloaded": "^4.1.4",
