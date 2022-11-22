@@ -22,7 +22,7 @@
     "keycloak-js": "^9.0.2",
     "masonry-layout": "^4.2.2",
     "moment": "^2.24.0",
-    "nuxt": "^2.0.0",
+    "nuxt": "^2.15.8",
     "vue-masonry": "^0.11.8",
     "vue-native-websocket": "^2.0.14"
   },
